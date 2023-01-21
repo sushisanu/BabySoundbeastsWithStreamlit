@@ -15,14 +15,10 @@ import soundfile as sf
 ## CFG
 cfg_model_path = 'models/SoundBeast_Model.pt' 
 
-cfg_enable_url_download = False
-if cfg_enable_url_download:
-   url = "https://archive.org/download/yoloTrained/yoloTrained.pt" #Configure this if you set cfg_enable_url_download to True
-   cfg_model_path = f"models/{url.split('/')[-1:][0]}" #config model path from url name
+
 ## END OF CFG
 
 def imageInput(device, src):
-    _ = open(os.devnull, 'w')
     if src == 'Upload your own data.':
         image_file = st.file_uploader("Upload An Image", type=['png', 'jpeg', 'jpg'])
         col1, col2 = st.columns(2)
@@ -39,12 +35,13 @@ def imageInput(device, src):
             #call Model prediction--
             model = torch.hub.load('ultralytics/yolov5', 'custom', path=cfg_model_path, force_reload=True) 
             model.cuda() if device == 'cuda' else model.cpu()
-            pred = model(imgpath)
-            pred.render()  # render bbox in image
+            with torch.no_grad():
+                pred = model(imgpath)
+                pred.render()  # render bbox in image
             for im in pred.ims:
                 im_base64 = Image.fromarray(im)
                 im_base64.save(outputpath)
-
+                
             #--Display predicton
             
             img_ = Image.open(outputpath)
@@ -199,15 +196,7 @@ if __name__ == '__main__':
   
     main()
 
-# Downlaod Model from url.    
-## @st.cache
-##def loadModel():
-  ##  start_dl = time.time()
-   ## model_file = wget.download(url, out="models/")
-  ##  finished_dl = time.time()
-  ##  print(f"Model Downloaded, ETA:{finished_dl-start_dl}")
-##if cfg_enable_url_download:
-  ##  loadModel()
+
 
 
  
