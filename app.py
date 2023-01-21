@@ -200,12 +200,12 @@ if __name__ == '__main__':
     main()
 
 # Downlaod Model from url.    
-@st.cache
-def loadModel():
-    start_dl = time.time()
+## @st.cache
+##def loadModel():
+  ##  start_dl = time.time()
    ## model_file = wget.download(url, out="models/")
-    finished_dl = time.time()
-    print(f"Model Downloaded, ETA:{finished_dl-start_dl}")
+  ##  finished_dl = time.time()
+  ##  print(f"Model Downloaded, ETA:{finished_dl-start_dl}")
 ##if cfg_enable_url_download:
   ##  loadModel()
 
