@@ -50,6 +50,8 @@ def imageInput(device, src):
             img_ = Image.open(outputpath)
             with col2:
                 st.image(img_, caption='Model Prediction(s)', use_column_width='always')
+            num_bboxes = len(pred.xyxy[0])
+            st.write(f'Number of bounding boxes: {num_bboxes}')
 
     elif src == 'From test set.': 
         # Image selector slider
@@ -73,6 +75,8 @@ def imageInput(device, src):
                 #--Display predicton
                     img_ = Image.open(os.path.join('data/outputs', os.path.basename(image_file)))
                     st.image(img_, caption='Model Prediction(s)')
+                num_bboxes = len(pred.xyxy[0])
+                st.write(f'Number of bounding boxes: {num_bboxes}')
 
           
 
@@ -120,8 +124,11 @@ def audioInput():
         img_ = Image.open(os.path.join('data/outputs', os.path.basename(spectrogram_filename)))
         st.image(img_, caption='Model Prediction(s)')
         
+        num_bboxes = len(pred.xyxy[0])
+        st.write(f'Number of bounding boxes: {num_bboxes}')
+        
         os.remove(temp_filename)
-
+  
 
         if st.button('Download Spectrogram'):
             d = datetime.now()
