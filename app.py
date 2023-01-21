@@ -2,7 +2,6 @@ import streamlit as st
 import torch
 import matplotlib.pyplot as plt 
 from PIL import Image
-from io import *
 import tempfile
 import glob
 from datetime import datetime
@@ -10,6 +9,7 @@ import os
 import numpy as np
 import librosa
 import librosa.display as ld
+import soundfile as sf
 
 
 ## CFG
@@ -84,22 +84,59 @@ def audioInput():
     uploaded_audio = st.file_uploader("Upload Audio", type=["wav", "wave", "flac", "mp3", "ogg"])
     if uploaded_audio is not None:
         # create a temporary file
-        temp_file = tempfile.NamedTemporaryFile(suffix='.wav', delete=False)
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".wav")
         temp_filename = temp_file.name
         temp_file.write(uploaded_audio.getvalue())
         temp_file.close()
-
         # load audio file
         y, sr = librosa.load(temp_filename)
+        # convert the audio to wav format
+        sf.write(temp_filename, y, sr, format='wav')
+        #create a spectrogram from the audio
+        D = np.abs(librosa.stft(y, n_fft=2048, hop_length=512))
+        # Convert amplitude spectrogram to Decibels-scaled spectrogram
+        DB = librosa.amplitude_to_db(D, ref = np.max)
+        # Create the spectogram
+        fig, ax = plt.subplots(figsize = (16, 6))
+        im = librosa.display.specshow(DB, sr=sr, hop_length=512, x_axis='time', y_axis='log',ax=ax)
+        plt.colorbar(im)
+        plt.title('Decibels-scaled spectrogram', fontsize=20)
+        st.pyplot(fig)
 
-        # create a spectrogram from the audio
-        S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128,fmax=8000)
+        # Save the spectrogram as a PNG file
+        spectrogram_filename = "spectrogram.png"
+        plt.savefig(os.path.join('data', spectrogram_filename))
 
-        # display the spectrogram as an image
-        plt.figure()
-        ld.specshow(librosa.power_to_db(S, ref=np.max), sr=sr, fmax=8000)
-        st.pyplot()
+        # Run the spectrogram through the YOLOv5 model
+        model = torch.hub.load('ultralytics/yolov5', 'custom', path=cfg_model_path, force_reload=True)
+        model.cpu()
+        pred = model(os.path.join('data', spectrogram_filename))
+        pred.render()  # render bbox in image
+        for im in pred.ims:
+            im_base64 = Image.fromarray(im)
+            im_base64.save(os.path.join('data/outputs', os.path.basename(spectrogram_filename)))
+
+        # Display the output image
+        img_ = Image.open(os.path.join('data/outputs', os.path.basename(spectrogram_filename)))
+        st.image(img_, caption='Model Prediction(s)')
+        
         os.remove(temp_filename)
+
+
+        if st.button('Download Spectrogram'):
+            d = datetime.now()
+            filename = "spectrogram" + d.strftime("%Y-%m-%d %H-%M-%S") + '.png'
+            plt.savefig(os.path.join('data', filename))
+            st.success(f'Image saved to {filename}')
+
+
+
+
+
+
+
+
+
          
  
       ##  ts = datetime.timestamp(datetime.now())
