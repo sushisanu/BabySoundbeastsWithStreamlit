@@ -22,7 +22,7 @@ if cfg_enable_url_download:
 ## END OF CFG
 
 def imageInput(device, src):
-    
+    _ = open(os.devnull, 'w')
     if src == 'Upload your own data.':
         image_file = st.file_uploader("Upload An Image", type=['png', 'jpeg', 'jpg'])
         col1, col2 = st.columns(2)
