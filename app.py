@@ -126,8 +126,8 @@ def audioInput():
         if st.button('Download Spectrogram'):
             d = datetime.now()
             filename = "spectrogram" + d.strftime("%Y-%m-%d %H-%M-%S") + '.png'
-            plt.savefig(os.path.join('data', filename))
-            st.success(f'Image saved to {filename}')
+            plt.savefig(os.path.join('data/Spectrogram', filename))
+            st.success(f'Image saved to {filename} path is data/Spectrogram')
 
 
 
@@ -160,20 +160,27 @@ def audioInput():
 def main():
     # -- Sidebar
     st.sidebar.title('⚙️Options')
-    datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'])
+    option = st.sidebar.radio("Select input type.", ['Image', 'Audio'])
+    if option == 'Audio':
+        datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'], disabled = True, index=1)
+    else:
+        datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'])
+
+
+    ## datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'])
     
         
                 
-    option = st.sidebar.radio("Select input type.", ['Image', 'Audio'])
+    
     if torch.cuda.is_available():
         deviceoption = st.sidebar.radio("Select compute Device.", ['cpu', 'cuda'], disabled = False, index=1)
     else:
         deviceoption = st.sidebar.radio("Select compute Device.", ['cpu', 'cuda'], disabled = True, index=0)
     # -- End of Sidebar
 
-    st.header('📦BabySoundbeast Detection')
+    st.header('❤️BabySoundbeast Detection')
     st.subheader('👈🏽 Select options left-haned menu bar.')
-    st.sidebar.markdown("https://github.com/thepbordin/Obstacle-Detection-for-Blind-people-Deployment")
+    st.sidebar.markdown("Visit my github: https://github.com/sushisanu/BabySoundbeastsWithStreamlit")
     if option == "Image":    
         imageInput(deviceoption, datasrc)
     elif option == "Audio": 
