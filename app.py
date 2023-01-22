@@ -13,6 +13,7 @@ import soundfile as sf
 
 
 
+
 ## CFG
 cfg_model_path = 'models/SoundBeast_Model.pt' 
 
@@ -90,8 +91,24 @@ def audioInput():
         temp_filename = temp_file.name
         temp_file.write(uploaded_audio.getvalue())
         temp_file.close()
+        
+        
         # load audio file
         y, sr = librosa.load(temp_filename)
+        
+        # Check Audio type is correct?
+        if temp_filename.endswith('wav'):
+            st.audio(temp_filename, format='audio/wav')
+        elif temp_filename.endswith('mp3'):
+            st.audio(temp_filename, format='audio/mp3')
+        elif temp_filename.endswith('flac'):
+            st.audio(temp_filename, format='audio/flac')
+        elif temp_filename.endswith('ogg'):
+            st.audio(temp_filename, format='audio/ogg')
+        else:
+            st.error('The audio format is not supported')
+    
+        
         # convert the audio to wav format
         sf.write(temp_filename, y, sr, format='wav')
         #create a spectrogram from the audio
@@ -144,22 +161,7 @@ def audioInput():
 
          
  
-      ##  ts = datetime.timestamp(datetime.now())
-     ##   imgpath = os.path.join('data/uploads', str(ts)+uploaded_video.name)
-      ##  outputpath = os.path.join('data/video_output', os.path.basename(imgpath))
 
-       ## with open(imgpath, mode='wb') as f:
-         ##   f.write(uploaded_video.read())  # save video to disk
-
-       ## st_video = open(imgpath, 'rb')
-       ## video_bytes = st_video.read()
-       ## st.video(video_bytes)
-       ## st.write("Uploaded Video")
-      ##  detect(weights=cfg_model_path, source=imgpath, device=0) if device == 'cuda' else detect(weights=cfg_model_path, source=imgpath, device='cpu')
-       ## st_video2 = open(outputpath, 'rb')
-      ##  video_bytes2 = st_video2.read()
-       ## st.audio(video_bytes2)
-         # audio_byte.write("Model Prediction")
 
 
 def main():
@@ -170,12 +172,6 @@ def main():
         datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'], disabled = True, index=1)
     else:
         datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'])
-
-
-    ## datasrc = st.sidebar.radio("Select input source.", ['From test set.', 'Upload your own data.'])
-    
-        
-                
     
     if torch.cuda.is_available():
         deviceoption = st.sidebar.radio("Select compute Device.", ['cpu', 'cuda'], disabled = False, index=1)
