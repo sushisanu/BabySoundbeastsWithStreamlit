@@ -104,3 +104,4 @@ wcwidth==0.2.6
 Werkzeug==2.2.2
 wincertstore==0.2
 zipp==3.11.0
+pysoundfile==0.9.0
