@@ -12,6 +12,7 @@ import librosa.display as ld
 import soundfile as sf
 
 
+
 ## CFG
 cfg_model_path = 'models/SoundBeast_Model.pt' 
 
@@ -33,8 +34,8 @@ def imageInput(device, src):
                 f.write(image_file.getbuffer())
 
             #call Model prediction--
-            model = torch.hub.load('ultralytics/yolov5', 'custom', path=cfg_model_path, force_reload=True) 
-            model.cuda() if device == 'cuda' else model.cpu()
+            model = torch.hub.load('ultralytics/yolov5', 'custom', path=cfg_model_path, force_reload=True)
+            model.cpu()
             with torch.no_grad():
                 pred = model(imgpath)
                 pred.render()  # render bbox in image
