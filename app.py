@@ -139,8 +139,17 @@ def audioInput():
         img_ = Image.open(os.path.join('data/outputs', os.path.basename(spectrogram_filename)))
         st.image(img_, caption='Model Prediction(s)')
         
+        # Calculate how many bounding boxies were detected in 1 minute.
         num_bboxes = len(pred.xyxy[0])
+        duration = librosa.get_duration(y, sr)
+        bboxes_per_minute = num_bboxes / (duration / 60)
         st.write(f'Number of bounding boxes: {num_bboxes}')
+        st.write(f'Number of bounding boxes per minute: {bboxes_per_minute:.2f}')
+        if num_bboxes / (duration / 60) < 5:
+            st.write("Baby's soundbeasts less than 5 peaks per minute.")
+        else :
+            st.write("Baby's soundbeasts is stable!")   
+       
         
         os.remove(temp_filename)
   
