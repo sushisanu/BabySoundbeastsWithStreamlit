@@ -29,9 +29,9 @@ streamlit==0.66.0
 tensorflow
 tensorflowjs
 tensorrt
-tflite_runtime==2.5.0
-tflite_support==0.1.0
-thop==0.0.43
+tflite_runtime
+tflite_support
+thop
 torch==1.7.1
 torchvision==0.8.2
 tqdm==4.54.0
