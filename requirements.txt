@@ -35,6 +35,6 @@ thop
 torch
 torchvision
 tqdm
-
+libsndfile==1.0.29
 tritonclient
 x2paddle
