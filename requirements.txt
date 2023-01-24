@@ -7,7 +7,7 @@ librosa
 
 matplotlib==3.4.2
 mss
-numpy==1.20.3
+numpy
 onnx
 onnxruntime
 onnxsim
