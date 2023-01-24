@@ -9,7 +9,7 @@ matplotlib==3.4.2
 mss
 numpy==1.20.3
 onnx
-onnxruntime=
+onnxruntime
 onnxsim
 opencv_python_headless
 openvino==2021.4.1
