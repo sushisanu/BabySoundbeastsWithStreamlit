@@ -24,6 +24,7 @@ requests==2.25.0
 scipy==1.5.4
 seaborn==0.11.0
 setuptools==50.3.2
+sndfile
 soundfile==0.10.3.post1
 streamlit==0.66.0
 tensorflow
