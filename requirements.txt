@@ -1,6 +1,6 @@
 albumentations
 comet_ml==3.2.3
-coremltools==5.3
+coremltools
 Flask==1.1.2
 ipython==7.19.0
 librosa==0.8.2
