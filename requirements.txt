@@ -8,7 +8,7 @@ librosa
 matplotlib==3.4.2
 mss
 numpy==1.20.3
-onnx==1.8.2
+onnx
 onnxruntime==1.5.2
 onnxsim==1.6.0
 opencv_python_headless==4.4.1.46
@@ -20,7 +20,7 @@ psutil==5.8.0
 pycocotools==2.1
 PyYAML==5.4.1
 requests==2.25.0
-
+satisfies
 scipy==1.5.4
 seaborn==0.11.0
 setuptools==50.3.2
