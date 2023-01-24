@@ -3,7 +3,7 @@ comet_ml==3.2.3
 coremltools
 Flask==1.1.2
 ipython==7.19.0
-librosa==0.8.2
+librosa
 libsndfile==1.0.29
 matplotlib==3.4.2
 mss==6.2.0
