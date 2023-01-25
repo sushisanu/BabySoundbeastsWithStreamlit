@@ -4,7 +4,8 @@ coremltools
 Flask
 ipython
 librosa
-
+keras==2.8
+Protobuf==4
 matplotlib
 mss
 numpy
