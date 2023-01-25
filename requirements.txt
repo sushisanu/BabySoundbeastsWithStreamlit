@@ -1,4 +1,4 @@
-pip>=22.3.1
+pip install --upgrade pip
 albumentations
 comet_ml
 coremltools
