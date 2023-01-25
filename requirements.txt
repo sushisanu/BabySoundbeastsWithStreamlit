@@ -1,3 +1,4 @@
+pip>=22.3.1
 albumentations
 comet_ml
 coremltools
