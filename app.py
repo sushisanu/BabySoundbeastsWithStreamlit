@@ -16,6 +16,8 @@ import soundfile as sf
 
 ## CFG
 cfg_model_path = 'models/SoundBeast_Model.pt' 
+## CFG V2
+## cfg_model_path = 'models/SoundBeast_ModelV2.pt' 
 
 
 ## END OF CFG
@@ -107,20 +109,29 @@ def audioInput():
             st.audio(temp_filename, format='audio/ogg')
         else:
             st.error('The audio format is not supported')
-    
+        
         
         # convert the audio to wav format
         sf.write(temp_filename, y, sr, format='wav')
-        #create a spectrogram from the audio
-        D = np.abs(librosa.stft(y, n_fft=2048, hop_length=512))
-        # Convert amplitude spectrogram to Decibels-scaled spectrogram
-        DB = librosa.amplitude_to_db(D, ref = np.max)
-        # Create the spectogram
-        fig, ax = plt.subplots(figsize = (16, 6))
-        im = librosa.display.specshow(DB, sr=sr, hop_length=512, x_axis='time', y_axis='log',ax=ax)
-        plt.colorbar(im)
-        plt.title('Decibels-scaled spectrogram', fontsize=20)
+        # create a spectrogram from the audio
+        S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128,fmax=8000)
+
+        # create a new figure
+        fig, ax = plt.subplots()
+        # display the spectrogram as an image
+        ld.specshow(librosa.power_to_db(S, ref=np.max), sr=sr, fmax=8000, ax=ax)
         st.pyplot(fig)
+        # Old Code  
+        #create a spectrogram from the audio
+        # D = np.abs(librosa.stft(y, n_fft=2048, hop_length=512))
+        # Convert amplitude spectrogram to Decibels-scaled spectrogram
+        #DB = librosa.amplitude_to_db(D, ref = np.max)
+        # Create the spectogram
+        #fig, ax = plt.subplots(figsize = (16, 6))
+        #im = librosa.display.specshow(DB, sr=sr, hop_length=512, x_axis='time', y_axis='log',ax=ax)
+        #plt.colorbar(im)
+        #plt.title('Decibels-scaled spectrogram', fontsize=20)
+        #st.pyplot(fig)
 
         # Save the spectrogram as a PNG file
         spectrogram_filename = "spectrogram.png"
