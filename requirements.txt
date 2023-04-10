@@ -20,6 +20,7 @@ contourpy==1.0.7
 cycler==0.11.0
 decorator==5.1.1
 docopt==0.6.2
+easygui==0.98.3
 entrypoints==0.4
 executing==1.2.0
 flowchart==0.0.1
@@ -72,7 +73,7 @@ Pygments==2.14.0
 Pympler==1.0.1
 pyparsing==3.0.9
 pyrsistent==0.19.3
-PySoundFile
+PySoundFile==0.9.0.post1
 python-dateutil==2.8.2
 pytz==2022.7.1
 pytz-deprecation-shim==0.1.0.post0
@@ -113,6 +114,3 @@ Werkzeug==2.2.2
 wincertstore==0.2
 yarg==0.1.9
 zipp==3.11.0
-easygui
-
-
