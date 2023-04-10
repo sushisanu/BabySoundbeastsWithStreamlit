@@ -113,5 +113,6 @@ Werkzeug==2.2.2
 wincertstore==0.2
 yarg==0.1.9
 zipp==3.11.0
+easygui
 
 
